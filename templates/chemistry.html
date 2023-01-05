@@ -1,0 +1,182 @@
+{% extends 'basequiz.html' %}
+{% load static %}
+
+{% block title %}
+<title>Chemistry</title>
+{% endblock title %}
+
+{% block scrpt %}
+<script>
+    const quizData = [
+    {
+        question: "Diamond is hard because",
+        a: "It is a crystalline allotrope of carbon",
+        b: "It is a giant molecule",
+        c: "All the valence electron of C atoms are involved in bonding",
+        d: "It has high value of refractive index",
+        correct: "c",
+    },
+    {
+        question: "The most electronegative element is",
+        a: "Na",
+        b:"F",
+        c: "O",
+        d: "Xe",
+        correct: "b",
+    },
+    {
+        question: "The number of electrons shared by each outermost shell of N2 is",
+        a: "2",
+        b: "3",
+        c: "4",
+        d: "6",
+        correct: "b",
+    },
+    {
+        question: "When 2 ice cubes are pressed with each other, they unite to form one cube due to",
+        a: "Ionic interaction",
+        b: "Vander Wall's force",
+        c: "Covalent bond",
+        d: "Hydrogen bond formation ",
+        correct: "d",
+    },
+    {
+        question: "Ammonium ion is",
+        a: "a conjugate acid",
+        b: "a conjugate base",
+        c: "both an acid and a base",
+        d: "neither an acid nor a base",
+        correct: "a",
+    },
+    {
+        question: "Aluminium chloride is",
+        a: "Bronsted Lowry acid",
+        b: "Arrhenius acid",
+        c: "Lewis acid",
+        d: "Lewis base",
+        correct: "c",
+    },
+    {
+        question: "Ag is purified by",
+        a: "Levigation",
+        b: "Cupellation",
+        c: "Dialysis",
+        d: "Mond's process", 
+        correct: "b",
+    },
+    {
+        question: "Bessemer converter is used in the manufacture of",
+        a: "Pig iron",
+        b: "Steel",
+        c: "Wrought iron",
+        d: "Cast iron",
+        correct: "b",
+    },
+    {
+        question: "Mercury is transported in metal containers made of",
+        a: "Silver",
+        b: "Lead",
+        c: "Iron",
+        d: "Aluminium",
+        correct: "c",
+    },
+    {
+        question:"Very dilute solution of the zinc sulphate is used as",
+        a: "Fertilizers",
+        b: "Eye drops",
+        c: "Germicide",
+        d: "Fungicide",
+        correct: "b",
+    },
+    {
+        question: "Methanol is manufactured by passing compressed water gas with excess of hydrogen over",
+        a: "platinized asbestos",
+        b: "hot cobalt oxide",
+        c: "a hot mixture of zinc and chromium oxides",
+        d: "finely divided nickel",
+        correct: "c",
+    },
+    {
+        question: "When sodium ethoxy is heated with iodomethane",
+        a: "Methoxy ethane",
+        b: "Ethoxyethane",
+        c: "Propanol",
+        d: "Butanol",
+        correct: "a",
+    },
+    {
+        question: "In Cannizzaro's reaction",
+        a: "Acid is converted into Amine",
+        b: "Aldehyde is converted into alcohol",
+        c: "Alcohol is converted into Aldehyde",
+        d: "Primary amine is converted into cyanide",
+        correct: "b",
+    },
+    {
+        question: "Picric acid is",
+        a: "Trinitroaniline",
+        b: "Trinitro toulene",
+        c: "Trinitro glycerine",
+        d: "2,4,6 trinitrophenol",
+        correct: "d",
+    },
+    {
+        question: "Heating of rubber with sulphur is known as",
+        a: "Galvanization",
+        b: "Vulcanization",
+        c: "Bessemerization",
+        d: "Sulphonation",
+        correct: "b",   
+    },
+];
+const quiz= document.getElementById('quiz')
+const answerEls = document.querySelectorAll('.answer')
+const questionEl = document.getElementById('question')
+const a_text = document.getElementById('a_text')
+const b_text = document.getElementById('b_text')
+const c_text = document.getElementById('c_text')
+const d_text = document.getElementById('d_text')
+const submitBtn = document.getElementById('submit')
+let currentQuiz = 0
+let score = 0
+loadQuiz()
+function loadQuiz() {
+    deselectAnswers()
+    const currentQuizData = quizData[currentQuiz]
+    questionEl.innerText = currentQuizData.question
+    a_text.innerText = currentQuizData.a
+    b_text.innerText = currentQuizData.b
+    c_text.innerText = currentQuizData.c
+    d_text.innerText = currentQuizData.d
+}
+function deselectAnswers() {
+    answerEls.forEach(answerEl => answerEl.checked = false)
+}
+function getSelected() {
+    let answer
+    answerEls.forEach(answerEl => {
+        if(answerEl.checked) {
+            answer = answerEl.id
+        }
+    })
+    return answer
+}
+submitBtn.addEventListener('click', () => {
+    const answer = getSelected()
+    if(answer) {
+       if(answer === quizData[currentQuiz].correct) {
+           score++
+       }
+       currentQuiz++
+       if(currentQuiz < quizData.length) {
+           loadQuiz()
+       } else {
+        quiz.innerHTML = `
+           <h2>Congratulations! You answered ${score} out of ${quizData.length} questions correctly</h2>
+           <button onclick="location.reload()">Practice Again >></button>
+           `
+       }
+    }
+})
+</script>
+{% endblock scrpt %}

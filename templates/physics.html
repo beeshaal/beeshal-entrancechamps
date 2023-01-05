@@ -1,0 +1,184 @@
+{% extends 'basequiz.html' %}
+{% load static %}
+
+{% block title %}
+<title>Physics</title>
+{% endblock title %}
+
+{% block scrpt %}
+
+
+<script>
+const quizData = [
+    {
+        question: "The distance between 2 point differing in phase by 60deg having wave velocity 360m/s and frequency of wave 500 Hz is:",
+        a: "0.12 m",
+        b: "0.18 m",
+        c: "0.3 m",
+        d: "0.48 m",
+        correct: "a",
+    },
+    {
+        question: "A wave is reflected from a free boundary. The change of phase on reflection will be:",
+        a: "zero",
+        b:"p/4",
+        c: "p/2",
+        d: "p",
+        correct: "a",
+    },
+    {
+        question: "Beats are as result of",
+        a: "refraction",
+        b: "reflection",
+        c: "interference",
+        d: "diffraction",
+        correct: "c",
+    },
+    {
+        question: "A sonometer wire is vibrating in its second overtone. There are",
+        a: "2 nodes and 2 antinodes",
+        b: "1 nodes and 2 antinodes",
+        c: "4 nodes and 3 antinodes",
+        d: "3 nodes and 3 antinodes",
+        correct: "c",
+    },
+    {
+        question: "The radius of a conducting wire is doubled, then its specific resistance is",
+        a: "double",
+        b: "becomes 4 times",
+        c: "constant",
+        d: "becomes one fourth",
+        correct: "c",
+    },
+    {
+        question: "Three equal resistors each of resistance R are connected so as to form equilateral triangle. The equivalent resistance at any two corners is",
+        a: "2R/3",
+        b: "R/3",
+        c: "3R/2",
+        d: "3R",
+        correct: "a",
+    },
+    {
+        question: "Which of the following quantities does not change when a resistor connected to a battery is heated due to current? ",
+        a: "drift speed",
+        b: "resistivity",
+        c: "resistance",
+        d: "number of free electrons", 
+        correct: "d",
+    },
+    {
+        question: "If the power consume through 10Kohm resistance is 1W, then current is",
+        a: "1A",
+        b: "0.01A",
+        c: "0.001A",
+        d: "0.0001A",
+        correct: "b",
+    },
+    {
+        question: "Fuse wire should have",
+        a: "High resistivity, low melting point",
+        b: "High resistivity, high melting point",
+        c: "Low resistivity, high melting point",
+        d: "Low resistivity, low melting point",
+        correct: "a",
+    },
+    {
+        question:"Power dissipated by R1 and R2 resistor are 100W and 200W respectively when connected to same voltage. Their relation between R1 and R2 is",
+        a: "R1=R2",
+        b: "R1=R2/2",
+        c: "R1=2R2",
+        d: "R2=3R1",
+        correct: "c",
+    },
+    {
+        question: "Which one of the following statements is true for cathode rays?",
+        a: "It is stream of positively charged particles",
+        b: "It emits X-rays on striking a metal",
+        c: "It is an electromagnetic wave",
+        d: "it is not deflected by magnetic field",
+        correct: "b",
+    },
+    {
+        question: "Cathode rays are",
+        a: "Stream of fast moving electrons",
+        b: "Stream of positive ions",
+        c: "Positron",
+        d: "Neutron",
+        correct: "a",
+    },
+    {
+        question: "The kinetic energy of a  proton accelerated by 1V is",
+        a: "1/1840 eV",
+        b: "1840 eV",
+        c: "1 eV",
+        d: "2/1840 eV",
+        correct: "c",
+    },
+    {
+        question: "The ratio of the charge-to-mass ratio of a proton to an alpha particle equals",
+        a: "2",
+        b: "1/2",
+        c: "4",
+        d: "1/4",
+        correct: "a",
+    },
+    {
+        question: "If the threshold frequency is increased, what is the effect on K.E?",
+        a: "Increases",
+        b: "Decreases",
+        c: "Constant",
+        d: "First increases then decreases",
+        correct: "b",   
+    },
+];
+const quiz= document.getElementById('quiz')
+const answerEls = document.querySelectorAll('.answer')
+const questionEl = document.getElementById('question')
+const a_text = document.getElementById('a_text')
+const b_text = document.getElementById('b_text')
+const c_text = document.getElementById('c_text')
+const d_text = document.getElementById('d_text')
+const submitBtn = document.getElementById('submit')
+let currentQuiz = 0
+let score = 0
+loadQuiz()
+function loadQuiz() {
+    deselectAnswers()
+    const currentQuizData = quizData[currentQuiz]
+    questionEl.innerText = currentQuizData.question
+    a_text.innerText = currentQuizData.a
+    b_text.innerText = currentQuizData.b
+    c_text.innerText = currentQuizData.c
+    d_text.innerText = currentQuizData.d
+}
+function deselectAnswers() {
+    answerEls.forEach(answerEl => answerEl.checked = false)
+}
+function getSelected() {
+    let answer
+    answerEls.forEach(answerEl => {
+        if(answerEl.checked) {
+            answer = answerEl.id
+        }
+    })
+    return answer
+}
+submitBtn.addEventListener('click', () => {
+    const answer = getSelected()
+    if(answer) {
+       if(answer === quizData[currentQuiz].correct) {
+           score++
+       }
+       currentQuiz++
+       if(currentQuiz <quizData.length) {
+           loadQuiz()
+       } else {
+        quiz.innerHTML = `
+           <h2>Congratulations! You answered ${score} out of ${quizData.length} questions correctly</h2>
+           <button onclick="location.reload()">Practice Again >></button>
+           `
+       }
+    }
+})
+</script>
+{% endblock scrpt %}
